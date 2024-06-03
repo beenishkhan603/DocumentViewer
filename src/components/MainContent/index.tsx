@@ -78,19 +78,19 @@ const MainArea: React.FC<MainAreaProps> = ({ page, onSave }) => {
 						name="bodyText"
 						control={control}
 						render={({ field }) => (
-							<MdEditor
-								{...field}
-								value={field.value}
-								style={{ height: '400px' }}
-								renderHTML={(text) => new MarkdownIt().render(text)}
-								onChange={({ text }) => field.onChange(text)}
-							/>
+							<>
+								<MdEditor
+									value={field.value}
+									style={{ height: '400px' }}
+									renderHTML={(text) => new MarkdownIt().render(text)}
+									onChange={({ text }) => field.onChange(text)}
+								/>
+								{errors.bodyText && (
+									<p style={{ color: 'red' }}>{errors.bodyText.message}</p>
+								)}
+							</>
 						)}
 					/>
-					{errors.bodyText && (
-						<p style={{ color: 'red' }}>{errors.bodyText.message}</p>
-					)}
-					<br />
 					<br />
 					<Button type="submit" variant="contained" color="primary">
 						Complete Edit
