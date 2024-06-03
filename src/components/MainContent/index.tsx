@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
+import MarkdownIt from 'markdown-it';
 import { TextField, Button, Grid, Box } from '@mui/material';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
 
 import { validationSchema } from '../../helper/yupValidation';
 import styles from './style.module.css';
@@ -75,18 +78,18 @@ const MainArea: React.FC<MainAreaProps> = ({ page, onSave }) => {
 						name="bodyText"
 						control={control}
 						render={({ field }) => (
-							<TextField
+							<MdEditor
 								{...field}
-								label="Body"
-								variant="outlined"
-								fullWidth
-								multiline
-								rows={10}
-								error={!!errors.bodyText}
-								helperText={errors.bodyText ? errors.bodyText.message : ''}
+								value={field.value}
+								style={{ height: '400px' }}
+								renderHTML={(text) => new MarkdownIt().render(text)}
+								onChange={({ text }) => field.onChange(text)}
 							/>
 						)}
 					/>
+					{errors.bodyText && (
+						<p style={{ color: 'red' }}>{errors.bodyText.message}</p>
+					)}
 					<br />
 					<br />
 					<Button type="submit" variant="contained" color="primary">

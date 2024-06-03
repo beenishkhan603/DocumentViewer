@@ -26,14 +26,14 @@ const Layout: React.FC = () => {
 	const [documentation, setDocumentation] = useState<Documentation | null>(
 		null
 	);
-	const [errorMessage, setErrorMessage] = useState('');
+	const [errorMessage, setErrorMessage] = useState<string>('');
 
 	const navigate = useNavigate();
 	const { pageTitle } = useParams<{ pageTitle: string }>();
 
 	const isValidUrl = (url: string) => {
 		const urlPattern = new RegExp(
-			'^(https?:\\/\\/)?' + // protocol
+			'^(https?:\\/\\/)?' +
 				'((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.)+[a-zA-Z]{2,}|' +
 				'((\\d{1,3}\\.){3}\\d{1,3}))' +
 				'(\\:\\d+)?(\\/[-a-zA-Z\\d%_.~+]*)*' +
@@ -55,7 +55,6 @@ const Layout: React.FC = () => {
 		if (!documentation) {
 			return;
 		}
-
 		const pageExists = documentation.Pages.some(
 			(page) => page.title === pageTitle
 		);
@@ -69,7 +68,6 @@ const Layout: React.FC = () => {
 			setErrorMessage('Please enter a valid URL.');
 			return;
 		}
-
 		setIsLoadingSubmit(true);
 		try {
 			if (url) {
