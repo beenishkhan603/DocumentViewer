@@ -1,0 +1,9 @@
+.mainContainer {
+	height: 100vh;
+	margin: auto;
+}
+.errMsg {
+	font-size: 1rem;
+	color: crimson;
+	text-align: center;
+}

@@ -1,0 +1,7 @@
+.menu {
+	border: 2px solid #c9c4c4;
+	border-radius: 20px;
+	height: 90vh;
+	overflow: auto;
+	margin-right: 3rem;
+}

@@ -1,0 +1,10 @@
+.titleContainer {
+	align-items: center;
+}
+.mainContainer {
+	height: 90vh;
+	overflow: auto;
+}
+.titleContainer > div > h1 {
+	word-wrap: break-word;
+}
