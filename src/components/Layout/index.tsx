@@ -152,9 +152,7 @@ const Layout: React.FC = () => {
 					</Box>
 				</>
 			) : (
-				<Container
-					style={{ height: '100vh', display: 'flex', alignItems: 'center' }}
-				>
+				<Container className={styles.mainContainer}>
 					<Box style={{ width: '100%' }}>
 						<Grid
 							container

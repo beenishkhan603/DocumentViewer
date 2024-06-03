@@ -1,6 +1,7 @@
 .mainContainer {
-	height: 100vh;
-	margin: auto;
+	height: 100vh !important;
+	display: flex !important;
+	align-items: center !important;
 }
 .errMsg {
 	font-size: 1rem;
