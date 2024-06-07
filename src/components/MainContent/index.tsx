@@ -18,9 +18,14 @@ interface Page {
 interface MainAreaProps {
 	page?: Page;
 	onSave?: (page: Page) => void;
+	existingFileName: string[];
 }
 
-const MainArea: React.FC<MainAreaProps> = ({ page, onSave }) => {
+const MainArea: React.FC<MainAreaProps> = ({
+	page,
+	onSave,
+	existingFileName,
+}) => {
 	const [isEditing, setIsEditing] = useState(false);
 
 	const {
@@ -29,7 +34,7 @@ const MainArea: React.FC<MainAreaProps> = ({ page, onSave }) => {
 		setValue,
 		formState: { errors },
 	} = useForm({
-		resolver: yupResolver(validationSchema),
+		resolver: yupResolver(validationSchema(existingFileName)),
 		defaultValues: {
 			title: page?.title || '',
 			bodyText: page?.bodyText || '',

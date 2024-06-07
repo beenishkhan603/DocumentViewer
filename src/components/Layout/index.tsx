@@ -43,6 +43,9 @@ const Layout: React.FC = () => {
 		);
 		return !!urlPattern.test(url);
 	};
+	const getExistingFileNames = (): string[] => {
+		return documentation?.Pages.map((p) => p.title) || [];
+	};
 
 	useEffect(() => {
 		const storedDocumentation = localStorage.getItem('documentation');
@@ -63,6 +66,16 @@ const Layout: React.FC = () => {
 		}
 	}, [documentation, pageTitle, navigate]);
 
+	const isValidDocumentation = (data: any): data is Documentation => {
+		return (
+			data &&
+			Array.isArray(data.Pages) &&
+			data.Pages.every(
+				(page: any) =>
+					typeof page.title === 'string' && typeof page.bodyText === 'string'
+			)
+		);
+	};
 	const handleFetchDocument = async () => {
 		if (!isValidUrl(url)) {
 			setErrorMessage('Please enter a valid URL.');
@@ -73,6 +86,11 @@ const Layout: React.FC = () => {
 			if (url) {
 				const response = await fetch(url);
 				const data: Documentation = await response.json();
+
+				if (!isValidDocumentation(data)) {
+					setErrorMessage('Invalid JSON structure');
+					return;
+				}
 				setDocumentation(data);
 				localStorage.setItem('documentation', JSON.stringify(data));
 				if (data.Pages.length > 0) {
@@ -122,6 +140,10 @@ const Layout: React.FC = () => {
 		return documentation?.Pages.find((p) => p.title === pageTitle);
 	};
 
+	const loadNewDoc = () => {
+		localStorage.clear();
+		navigate('/');
+	};
 	return (
 		<div className="app">
 			{documentation ? (
@@ -138,12 +160,24 @@ const Layout: React.FC = () => {
 									loading={isLoading}
 								>
 									Export
+								</LoadingButton>{' '}
+								&nbsp;&nbsp;&nbsp;
+								<LoadingButton
+									onClick={loadNewDoc}
+									variant="contained"
+									startIcon={<FileDownloadIcon />}
+								>
+									Load Another Document
 								</LoadingButton>
 							</Grid>
 
 							<Grid item md={8} lg={8} sm={12} xs={12}>
 								{getCurrentPage() ? (
-									<PageDisplay page={getCurrentPage()} onSave={saveChanges} />
+									<PageDisplay
+										page={getCurrentPage()}
+										onSave={saveChanges}
+										existingFileName={getExistingFileNames()}
+									/>
 								) : (
 									<div>Page not found</div>
 								)}

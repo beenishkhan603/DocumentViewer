@@ -14,7 +14,7 @@ const Menu: React.FC<MenuProps> = ({ pages }) => {
 	return (
 		<div className={styles.menu}>
 			<List component="nav">
-				{pages?.map((page: any) => (
+				{pages?.map((page: { title: string }) => (
 					<div key={page.title}>
 						<ListItemButton
 							component={Link}
